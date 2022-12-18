@@ -16,6 +16,8 @@ RUN cat /root/back_xdebug_debug >> /etc/php/8.2/cli/php.ini
 RUN mkdir -p /var/www/html/.vscode/
 COPY ./conf/.vscode/launch.json /var/www/html/.vscode/
 
+
+# no need but to supress warning
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 ENTRYPOINT apachectl -D FOREGROUND
