@@ -18,17 +18,15 @@ services:
     depends_on:
       - mariadb
     container_name: apache-php
-    build:
-      context: .
-      dockerfile: Dockerfile.back # 도커파일 이름
+    build: ./back
     restart: always
     env_file:
       - .env
-    expose:
-      - "8080"
-      - "9003"
+    ports:
+      - "8080:80"
+      - "9003:9003"
     volumes:
-      - ./back:/var/www/html
+      - ./back/src:/var/www/html
     networks:
       - camagru
 
