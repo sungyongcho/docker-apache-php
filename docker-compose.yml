@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    volumes:
+      - db:/var/lib/mysql
+    restart: always
+    env_file:
+      - .env
+    expose:
+      - "3306"
+    networks:
+      - camagru
+  apache-php:
+    image: apache-php
+    depends_on:
+      - mariadb
+    container_name: apache-php
+    build:
+      context: .
+      dockerfile: Dockerfile.back # 도커파일 이름
+    restart: always
+    env_file:
+      - .env
+    expose:
+      - "8080"
+      - "9003"
+    volumes:
+      - ./back:/var/www/html
+    networks:
+      - camagru
+
+volumes:
+  db:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${MYSQL_VOLUME}
+
+networks:
+  camagru:
